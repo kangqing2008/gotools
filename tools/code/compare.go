@@ -9,7 +9,7 @@ import (
 	"io"
 	"path/filepath"
 	"bytes"
-	"kangqing/gotools/tools/file"
+	"kangqing2008/gotools/tools/file"
 )
 
 const btips string = `**************************************************************

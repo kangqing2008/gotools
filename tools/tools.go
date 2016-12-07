@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"kangqing/gotools/tools/code"
+	"kangqing2008/gotools/tools/code"
 	"flag"
 	"strings"
 )
