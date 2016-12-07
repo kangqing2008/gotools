@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
-	"kangqing/gotools/tools/file"
+	"kangqing2008/gotools/tools/file"
 )
 
 const tips string = `**************************************************************
