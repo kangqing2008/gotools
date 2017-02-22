@@ -12,6 +12,7 @@ import (
 	"sort"
 	"io"
 	"fmt"
+	"bufio"
 )
 
 const StrPathSeparator string = string(os.PathSeparator)
@@ -83,4 +84,29 @@ func CopyFile(src,dest string)(int64,error){
 	}
 	defer desFile.Close()
 	return io.Copy(desFile, srcFile)
+}
+
+func ReadLine(filename string)([]string,error){
+	f, err := os.Open(filename)
+	if err != nil {
+		return nil,err
+	}
+	var results []string
+	buf := bufio.NewReader(f)
+	for {
+		line, err := buf.ReadString('\n')
+		line = strings.TrimSpace(line)
+		//fmt.Println(line)
+		if err != nil {
+			if err == io.EOF {
+				return results,nil
+			}else{
+				fmt.Println("读取文件出错：",filename)
+			}
+			return results,err
+		}else{
+			results = append(results,line)
+		}
+	}
+	return results,nil
 }
