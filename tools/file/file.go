@@ -31,7 +31,7 @@ func CurrentPath()string{
 
 }
 
-//截取字符串
+// 截取指定位置的字符串
 func Substr(s string, pos, length int) string {
 	runes := []rune(s)
 	l := pos + length
@@ -40,6 +40,12 @@ func Substr(s string, pos, length int) string {
 	}
 	return string(runes[pos:l])
 }
+
+func SubstrToEnd(s string, pos int) string {
+	runes := []rune(s)
+	return string(runes[pos:])
+}
+
 
 func Exists(filename string)(bool,os.FileInfo){
 	info,err := os.Stat(filename)
@@ -71,6 +77,29 @@ func GetFileDir(filename string)string{
 	}
 }
 
+//根据文件全路径，获取制定的文件的名称和后缀
+//返回 filename和suffix
+//只针对文件
+func GetFileName(fullpath string)(string,string){
+	fullpath = strings.Replace(fullpath,"\\","/",-1)
+	var fullname,filename,suffix string
+	// 找到最后一个/
+	if strings.LastIndex(fullpath,"/") > -1{
+		fullname = SubstrToEnd(fullpath, strings.LastIndex(fullpath, "/") + 1)
+	}else{
+		fullname = fullpath
+	}
+	// 找到最后一个.
+	if strings.LastIndex(fullname,".") > -1{
+		filename = Substr(fullname,0,strings.LastIndex(fullname,"."))
+		suffix = SubstrToEnd(fullname,strings.LastIndex(fullname,".") + 1)
+	}else{
+		filename = fullname
+		suffix = ""
+	}
+	return filename,suffix
+}
+
 //拷贝文件
 func CopyFile(src,dest string)(int64,error){
 	srcFile, err := os.Open(src)
@@ -86,7 +115,7 @@ func CopyFile(src,dest string)(int64,error){
 	return io.Copy(desFile, srcFile)
 }
 
-func ReadLine(filename string)([]string,error){
+func ReadAllLines(filename string)([]string,error){
 	f, err := os.Open(filename)
 	if err != nil {
 		return nil,err
